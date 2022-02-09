@@ -13,4 +13,17 @@ describe('effect', () => {
     user.age++;
     expect(nextAge).toBe(12);
   });
+  it('should be return runner when call effect', () => {
+    let foo = 10;
+    // effect会返回一个runner函数，再次调用runner函数会再次执行effect里面的function
+    let runner = effect(() => {
+      foo++;
+      return 'run';
+    });
+
+    expect(foo).toBe(11);
+    let res = runner();
+    expect(foo).toBe(12);
+    expect(res).toBe('run');
+  });
 });
