@@ -1,7 +1,9 @@
 class ReactiveEffact {
   private _fn: any;
-  constructor(fn) {
+  public scheduler: any;
+  constructor(fn, scheduler?) {
     this._fn = fn;
+    this.scheduler = scheduler;
   }
   run() {
     activeEffect = this;
@@ -31,12 +33,16 @@ export function trigger(target, key) {
   let depsMap = targetMap.get(target);
   let deps = depsMap.get(key);
   for (let effect of deps) {
-    effect.run();
+    if (effect.scheduler) {
+      effect.scheduler();
+    } else {
+      effect.run();
+    }
   }
 }
 
-export function effect(fn) {
-  const _effect = new ReactiveEffact(fn);
+export function effect(fn, options: any = {}) {
+  const _effect = new ReactiveEffact(fn, options.scheduler);
   _effect.run();
   return _effect.run.bind(_effect);
 }
