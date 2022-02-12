@@ -1,6 +1,6 @@
 import { effect } from '../effect';
 import { reactive } from '../reactive';
-import { isRef, ref, unRef } from '../ref';
+import { isRef, proxyRef, ref, unRef } from '../ref';
 
 describe('ref', () => {
   it('happy path', () => {
@@ -49,5 +49,26 @@ describe('ref', () => {
     const a = ref(1);
     expect(unRef(a)).toBe(1);
     expect(unRef(1)).toBe(1);
+  });
+
+  //proxyRef可以用在templete里面，template里面用的ref值可以不用写value
+  it('proxyRef', () => {
+    const user = {
+      age: ref(10),
+      name: 'jenny',
+    };
+
+    const proxyUser = proxyRef(user);
+    expect(user.age.value).toBe(10);
+    expect(proxyUser.age).toBe(10);
+    expect(proxyUser.name).toBe('jenny');
+
+    proxyUser.age = 20;
+    expect(proxyUser.age).toBe(20);
+    expect(user.age.value).toBe(20);
+
+    proxyUser.age = ref(20);
+    expect(proxyUser.age).toBe(20);
+    expect(user.age.value).toBe(20);
   });
 });
