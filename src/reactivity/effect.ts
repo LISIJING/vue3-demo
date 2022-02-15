@@ -3,7 +3,7 @@ import { extend } from '../shared';
 let shouldTrack;
 let activeEffect;
 
-class ReactiveEffact {
+export class ReactiveEffect {
   private _fn: any;
   public scheduler: any;
   deps: any = [];
@@ -88,7 +88,7 @@ export function triggerEffects(dep) {
 }
 
 export function effect(fn, options: any = {}) {
-  const _effect = new ReactiveEffact(fn, options.scheduler);
+  const _effect = new ReactiveEffect(fn, options.scheduler);
   //将options的属性合并到_effect上
   extend(_effect, options);
   _effect.run();
