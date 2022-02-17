@@ -1,8 +1,23 @@
+import { shapFlags } from '../shared/shapFlags';
+
 export function createVNode(type, props?, children?) {
-  return {
+  const vnode = {
     type,
     props,
     children,
+    shapFlag: getShapFlag(type),
     el: null,
   };
+  if (typeof children === 'string') {
+    vnode.shapFlag |= shapFlags.TEXT_CHILDREN;
+  } else if (Array.isArray(children)) {
+    vnode.shapFlag |= shapFlags.ARRAY_CHILDREN;
+  }
+
+  return vnode;
+}
+function getShapFlag(type: any) {
+  return typeof type === 'string'
+    ? shapFlags.ELEMENT
+    : shapFlags.STATEFUL_COMPONENT;
 }
