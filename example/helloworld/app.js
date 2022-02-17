@@ -5,7 +5,16 @@ export const App = {
     window.self = this;
     return h(
       'div',
-      { id: 'root', class: ['red', 'hard'] },
+      {
+        id: 'root',
+        class: ['red', 'hard'],
+        onClick() {
+          console.log('click');
+        },
+        onMouseDown() {
+          console.log('onMouseDown');
+        },
+      },
       'hi ' + this.msg,
       //  [
       //   h('p', { class: 'red' }, 'hi'),
