@@ -16,7 +16,18 @@ export const App = {
           console.log('onMouseDown');
         },
       },
-      [h('div', {}, 'hi: ' + this.msg), h(Foo, { count: 1 })],
+      [
+        h('div', {}, 'hi: ' + this.msg),
+        h(Foo, {
+          count: 1,
+          onAdd(a, b) {
+            console.log('on add', a, b);
+          },
+          onAddFoo() {
+            console.log('onAddFoo');
+          },
+        }),
+      ],
       // 'hi ' + this.msg,
       //  [
       //   h('p', { class: 'red' }, 'hi'),
