@@ -14,6 +14,11 @@ export function createVNode(type, props?, children?) {
     vnode.shapFlag |= shapFlags.ARRAY_CHILDREN;
   }
 
+  if (vnode.shapFlag & shapFlags.STATEFUL_COMPONENT) {
+    if (typeof children === 'object') {
+      vnode.shapFlag |= shapFlags.SLOT_CHILDREN;
+    }
+  }
   return vnode;
 }
 function getShapFlag(type: any) {
